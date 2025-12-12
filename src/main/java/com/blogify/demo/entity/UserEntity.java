@@ -1,5 +1,7 @@
 package com.blogify.demo.entity;
 
+import java.time.LocalDateTime;
+
 import com.blogify.demo.enums.Role;
 
 import jakarta.persistence.Column;
@@ -19,6 +21,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -31,5 +34,9 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.USER;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
 }
