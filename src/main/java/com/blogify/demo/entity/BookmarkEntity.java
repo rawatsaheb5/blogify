@@ -13,11 +13,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "bookmarks", 
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"user_id", "post_id"})
-            }
-)
+@Table(name = "bookmarks", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "user_id", "post_id" })
+})
 @Data
 @NoArgsConstructor
 public class BookmarkEntity {
@@ -29,12 +27,11 @@ public class BookmarkEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable =  false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity author;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private PostEntity post;
 
-    
 }

@@ -14,11 +14,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "follower_list", 
-        uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"followee_id", "follower_id"})
-        }
-)
+@Table(name = "follower_list", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "followee_id", "follower_id" })
+})
 @Data
 @NoArgsConstructor
 public class FollowerListEntity {
@@ -26,9 +24,9 @@ public class FollowerListEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
-    @JoinColumn(name = "followee_id" , nullable = false)
+    @JoinColumn(name = "followee_id", nullable = false)
     private UserEntity followee;
     @ManyToOne
     @JoinColumn(name = "follower_id", nullable = false)

@@ -1,7 +1,5 @@
 package com.blogify.demo.entity;
 
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,19 +13,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "likes",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"user_id", "post_id"}),
-                @UniqueConstraint(columnNames = {"user_id", "comment_id"})
-            }
-)
+@Table(name = "likes", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "user_id", "post_id" }),
+        @UniqueConstraint(columnNames = { "user_id", "comment_id" })
+})
 @Data
 @NoArgsConstructor
 public class LikeEntity {
-    
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id")
     private Long id;
 
