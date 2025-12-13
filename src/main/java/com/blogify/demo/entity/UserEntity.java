@@ -6,6 +6,7 @@ import com.blogify.demo.enums.Role;
 
 import jakarta.persistence.Column;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,6 +18,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")
 @Data
+@NoArgsConstructor
 public class UserEntity {
 
     @Id
@@ -27,6 +29,8 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false, unique = true)
+    private String email;
     private String name;
 
     private String password;
