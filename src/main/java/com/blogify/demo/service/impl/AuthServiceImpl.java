@@ -23,14 +23,24 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public SignupResponse signup(SignupRequest request) {
+        if (request.getEmail() == null || request.getEmail().isEmpty()) {
+            throw new RuntimeException("Email is required");
+        }
 
-        if (userRepository.ExistsByEmail(request.getEmail())) {
+        if (request.getPassword() == null || request.getPassword().isEmpty()) {
+            throw new RuntimeException("Password is required");
+        }
+
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered");
         }
 
         UserEntity user = new UserEntity();
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        // Generate username from email (part before @)
+        String username = request.getEmail().split("@")[0];
+        user.setUsername(username);
 
         UserEntity savedUser = userRepository.save(user);
 
