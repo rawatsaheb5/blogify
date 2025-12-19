@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blogify.demo.dto.request.SigninRequest;
 import com.blogify.demo.dto.request.SignupRequest;
+import com.blogify.demo.dto.response.SigninResponse;
 import com.blogify.demo.dto.response.SignupResponse;
 import com.blogify.demo.service.AuthService;
 
@@ -26,4 +28,13 @@ public class AuthController {
         SignupResponse response = authService.signup(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @PostMapping("/signin")
+   
+    public ResponseEntity<SigninResponse> signin(@RequestBody SigninRequest request) {
+        SigninResponse response = authService.signin(request);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+    
+    
 }

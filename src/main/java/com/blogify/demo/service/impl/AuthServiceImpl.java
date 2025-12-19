@@ -1,11 +1,16 @@
 package com.blogify.demo.service.impl;
 
+
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.blogify.demo.dto.request.SigninRequest;
 import com.blogify.demo.dto.request.SignupRequest;
+import com.blogify.demo.dto.response.SigninResponse;
 import com.blogify.demo.dto.response.SignupResponse;
 import com.blogify.demo.entity.UserEntity;
+import com.blogify.demo.exception.ApiException;
 import com.blogify.demo.repository.UserRepository;
 import com.blogify.demo.service.AuthService;
 
@@ -45,5 +50,26 @@ public class AuthServiceImpl implements AuthService {
         UserEntity savedUser = userRepository.save(user);
 
         return new SignupResponse(savedUser.getId(), savedUser.getEmail());
+    }
+
+    @Override
+    public SigninResponse signin(SigninRequest request) {
+        
+        if (request.getEmail() == null || request.getEmail().isEmpty()) {
+            throw new RuntimeException("Email is required");
+        }
+
+        if (request.getPassword() == null || request.getPassword().isEmpty()) {
+            throw new RuntimeException("Password is required");
+        }
+
+        UserEntity user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ApiException("Invalid Email"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new ApiException("Invalid Email or Password");
+        }
+
+        return new SigninResponse(user.getId().toString(), user.getEmail(), "Login successful");
     }
 }
