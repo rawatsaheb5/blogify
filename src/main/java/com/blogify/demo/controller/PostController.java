@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 @RestController
@@ -27,7 +32,7 @@ public class PostController {
     public ResponseEntity<PostResponse> createPost(
             @RequestBody CreatePostRequest request) {
 
-                // accessing email from token
+        // accessing email from token
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         PostResponse response = postService.createPost(request, email);
 
@@ -35,4 +40,10 @@ public class PostController {
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
+    
+    @GetMapping("/all")
+    public ResponseEntity<List<PostResponse>> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
+    }
+    
 }

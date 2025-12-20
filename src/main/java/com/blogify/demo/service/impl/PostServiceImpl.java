@@ -1,6 +1,8 @@
 package com.blogify.demo.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -51,5 +53,23 @@ public class PostServiceImpl implements PostService {
                 savedPost.getCommentCount(),
                 savedPost.isPublished(),
                 savedPost.getCreatedAt());
+    }
+
+    @Override
+    public List<PostResponse> getAllPosts() {
+        return postRepository.findAll().stream().map(this::mapToResponse).collect(Collectors.toList());
+
+    }
+
+    private PostResponse mapToResponse(PostEntity post) {
+        return new PostResponse(
+                post.getId().toString(),
+                post.getTitle(),
+                post.getDescription(),
+                post.getAuthor().getEmail(),
+                post.getLikeCount(),
+                post.getCommentCount(),
+                post.isPublished(),
+                post.getCreatedAt());
     }
 }
