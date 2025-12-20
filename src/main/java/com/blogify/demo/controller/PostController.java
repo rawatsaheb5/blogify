@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.http.HttpStatus;
 
 
@@ -26,7 +27,9 @@ public class PostController {
     public ResponseEntity<PostResponse> createPost(
             @RequestBody CreatePostRequest request) {
 
-        PostResponse response = postService.createPost(request, "abc@gmail.com");
+                // accessing email from token
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        PostResponse response = postService.createPost(request, email);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

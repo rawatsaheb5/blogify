@@ -12,6 +12,7 @@ import com.blogify.demo.dto.response.SignupResponse;
 import com.blogify.demo.entity.UserEntity;
 import com.blogify.demo.exception.ApiException;
 import com.blogify.demo.repository.UserRepository;
+import com.blogify.demo.security.JwtUtil;
 import com.blogify.demo.service.AuthService;
 
 @Service
@@ -19,11 +20,13 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public AuthServiceImpl(UserRepository userRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -70,6 +73,8 @@ public class AuthServiceImpl implements AuthService {
             throw new ApiException("Invalid Email or Password");
         }
 
-        return new SigninResponse(user.getId().toString(), user.getEmail(), "Login successful");
+        String token = jwtUtil.generateToken(user.getEmail());
+
+        return new SigninResponse(user.getId().toString(), user.getEmail(), token);
     }
 }
