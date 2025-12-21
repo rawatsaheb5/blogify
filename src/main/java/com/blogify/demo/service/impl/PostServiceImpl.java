@@ -75,12 +75,18 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostResponse> getAllUserPosts(String email) {
-        
+
         List<PostEntity> userPosts = postRepository.findByAuthorEmail(email);
 
         return userPosts.stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
 
+    }
+    
+    @Override
+    public PostResponse getPostById(Long id) {
+        PostEntity post = postRepository.findById(id).orElseThrow(() -> new ApiException("Post not found"));
+        return mapToResponse(post);
     }
 }

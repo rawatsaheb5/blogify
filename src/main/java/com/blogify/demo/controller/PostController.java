@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/post")
@@ -50,5 +51,12 @@ public class PostController {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         return ResponseEntity.ok(postService.getAllUserPosts(email));
     }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostResponse> getPostById(@PathVariable Long postId) {
+        PostResponse response = postService.getPostById(postId);
+        return ResponseEntity.ok(response);
+    }
+    
 
 }
