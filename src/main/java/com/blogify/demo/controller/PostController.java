@@ -16,8 +16,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
-
 @RestController
 @RequestMapping("/api/post")
 public class PostController {
@@ -40,10 +38,17 @@ public class PostController {
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
-    
+
     @GetMapping("/all")
     public ResponseEntity<List<PostResponse>> getAllPosts() {
         return ResponseEntity.ok(postService.getAllPosts());
     }
-    
+
+    @GetMapping("")
+    public ResponseEntity<List<PostResponse>> getAllUserPosts() {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        return ResponseEntity.ok(postService.getAllUserPosts(email));
+    }
+
 }

@@ -72,4 +72,15 @@ public class PostServiceImpl implements PostService {
                 post.isPublished(),
                 post.getCreatedAt());
     }
+
+    @Override
+    public List<PostResponse> getAllUserPosts(String email) {
+        
+        List<PostEntity> userPosts = postRepository.findByAuthorEmail(email);
+
+        return userPosts.stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+
+    }
 }

@@ -9,4 +9,6 @@ public interface PostService {
     PostResponse createPost(CreatePostRequest postRequest, String userEmail);
 
     List<PostResponse> getAllPosts();
+
+    List<PostResponse> getAllUserPosts(String email);
 }
