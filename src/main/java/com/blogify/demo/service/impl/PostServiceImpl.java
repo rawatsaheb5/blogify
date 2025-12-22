@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.blogify.demo.dto.request.CreatePostRequest;
+import com.blogify.demo.dto.request.UpdatePostRequest;
 import com.blogify.demo.dto.response.PostResponse;
 import com.blogify.demo.entity.PostEntity;
 import com.blogify.demo.entity.UserEntity;
@@ -88,5 +89,36 @@ public class PostServiceImpl implements PostService {
     public PostResponse getPostById(Long id) {
         PostEntity post = postRepository.findById(id).orElseThrow(() -> new ApiException("Post not found"));
         return mapToResponse(post);
+    }
+
+
+    @Override
+    public PostResponse updatePostById(Long postId, UpdatePostRequest request, String email) {
+        
+        PostEntity post = postRepository.findById(postId).orElseThrow(() -> new ApiException("Post not found"));
+
+        if (!post.getAuthor().getEmail().equals(email)) {
+            throw new ApiException("You are not allowed to update the post");
+        }
+
+        // 
+        if (request.getTitle() != null) {
+            post.setTitle(request.getTitle());
+        }
+
+        //
+        if (request.getDescription() != null) {
+            post.setDescription(request.getDescription());
+        }
+
+        //
+        if (request.getIsPublished() != null) {
+            post.setPublished(request.getIsPublished());
+        }
+        post.setUpdatedAt(LocalDateTime.now());
+
+        PostEntity updatedPost = postRepository.save(post);
+
+        return mapToResponse(updatedPost);
     }
 }

@@ -3,6 +3,7 @@ package com.blogify.demo.service;
 import java.util.List;
 
 import com.blogify.demo.dto.request.CreatePostRequest;
+import com.blogify.demo.dto.request.UpdatePostRequest;
 import com.blogify.demo.dto.response.PostResponse;
 
 public interface PostService {
@@ -13,4 +14,6 @@ public interface PostService {
     List<PostResponse> getAllUserPosts(String email);
 
     PostResponse getPostById(Long id);
+
+    PostResponse updatePostById(Long postId, UpdatePostRequest request, String email);
 }
